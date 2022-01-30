@@ -1,0 +1,11 @@
+.header-title {
+    color: aliceblue;
+    text-align: center;
+    background-image: linear-gradient(to right, rgb(111, 114, 245) , rgb(3, 4, 78));;
+    padding: 5px 0px;
+}
+
+hr {
+    height: 10px;
+    color: black;
+}
