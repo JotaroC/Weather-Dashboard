@@ -7,8 +7,7 @@ let cityList = [];
 let date = moment().format('dddd, MMMM Do YYYY');
 let dateTime = moment().format('YYYY-MM-DD HH:MM:SS')
 
-// WHEN I open the weather dashboard
-// THEN I am presented with the last searched city forecast
+// users are presented with the last searched city forecast when they load the webpage
 $(document).ready(function() {
     let searchHistory = JSON.parse(localStorage.getItem("city"));
 
@@ -19,8 +18,10 @@ $(document).ready(function() {
     }
 });
 
+//  This function will get current weather data of a specific city from OpenWeather within the APIKey
 function currentWeather(name) {
     let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&units=metric&appid=${APIkey}`;
+    // use ajax to fetch data
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -29,9 +30,11 @@ function currentWeather(name) {
         console.log(weatherResponse);
 
         $('#today-weather').empty();
+        // get the icon
         let iconCode = weatherResponse.weather[0].icon;
         let iconURL = `https://openweathermap.org/img/w/${iconCode}.png`;
 
+        //create elements for HTML DOM
         let currentCity = $(`
         <h2 id="currentCity">
         ${weatherResponse.name} ${today} 
@@ -43,7 +46,8 @@ function currentWeather(name) {
         `);  
 
         $("#today-weather").append(currentCity);
-    
+        
+        // get the UV index
         let lat = weatherResponse.coord.lat;
         let lon = weatherResponse.coord.lon;
         let uvURL = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIkey}`;
@@ -62,9 +66,8 @@ function currentWeather(name) {
             $("#today-weather").append(currentUV);
             futureWeather(lat, lon);
 
-            // WHEN I view the UV index
-            // THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-            // 0-2 green#3EA72D, 3-5 yellow#FFF300, 6-7 orange#F18B00, 8-10 red#E53210, 11+violet#B567A4
+            
+            // user will be  presented with a color that indicates UV index whether the conditions are favorable, moderate, or severe
             if (uvIndex >= 0 && uvIndex <= 4) {
                 $("#uvColor").addClass("badge bg-success")
             } else if (uvIndex >= 5 && uvIndex <= 8) {
@@ -76,6 +79,7 @@ function currentWeather(name) {
     })
 }
 
+//  This function will get 5 day forecast weather data of a specific city from OpenWeather within the APIKey
 function futureWeather(lat,lon) {
     let futureURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={current,minutely,hourly,alerts}&units=metric&appid=${APIkey}`;
 
@@ -119,6 +123,8 @@ function futureWeather(lat,lon) {
     })
 }
 
+// click search button will show the information of the input city
+// and add that city into the left bar
 $(".btn").on("click", function(event) {
     event.preventDefault();
 
@@ -134,6 +140,7 @@ $(".btn").on("click", function(event) {
     console.log(cityList);
 });
 
+// click the city list left-handside will show the information of that city
 $(document).on("click", ".list-group-item", function() {
     let city = $(this).text();
     currentWeather(city);
