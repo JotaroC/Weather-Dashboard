@@ -30,8 +30,7 @@ THEN I am again presented with current and future conditions for that city
 
 The following image is the sceenshot of web application's appearance and functionality:
 
-![screen shot of the website](./assets/image/Image1.png)
-![screen shot 2](./assets/image/Image2.png)
-![screen shot 3](./assets/image/Image3.png)
+![screen shot of the website](./assets/Image1.png)
+
 ---
 Author:Xingzhi Chang
