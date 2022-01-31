@@ -15,13 +15,13 @@ $(document).ready(function() {
 
     if (searchHistoryArr !== null) {
         let lastSearchedCity = searchHistoryArr[searchHistoryArr.length - 1];
-        currentCondition(lastSearchedCity);
+        // currentCondition(lastSearchedCity);
         console.log(`Last searched city: ${lastSearchedCity}`);
     }
 });
 
 function currentCondition(name) {
-    let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&units=imperial&appid=${APIkey}`;
+    let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&units=metric&appid=${APIkey}`;
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -38,9 +38,9 @@ function currentCondition(name) {
         ${weatherResponse.name} ${today} 
         <img src="${iconURL}" alt="${weatherResponse.weather[0].description}" />
         </h2>
-        <p>Temperature: ${weatherResponse.main.temp} °F</p>
+        <p>Temperature: ${weatherResponse.main.temp} °C</p>
         <p>Humidity: ${weatherResponse.main.humidity}\%</p>
-        <p>Wind Speed: ${weatherResponse.wind.speed} MPH</p>
+        <p>Wind Speed: ${weatherResponse.wind.speed} m/s</p>
         `);  
 
         $("#today-weather").append(currentCity);
@@ -81,7 +81,7 @@ function currentCondition(name) {
 }
 
 function futureCondition(lat,lon) {
-    let futureURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={current,minutely,hourly,alerts}&appid=${APIkey}`;
+    let futureURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={current,minutely,hourly,alerts}&units=metric&appid=${APIkey}`;
 
     $.ajax({
         url:futureURL,
@@ -110,19 +110,16 @@ function futureCondition(lat,lon) {
             // an icon representation of weather conditions
             // the temperature
             // the humidity
-            var futureCard = $(`
-                <div class="pl-3">
-                    <div class="card pl-3 pt-3 mb-3 bg-primary text-light" style="width: 12rem;>
+            let futureCard = $(`
+                    <div class="card pl-3 pt-3 mx-3 bg-primary text-light" style="width: 12rem;>
                         <div class="card-body">
                             <h5>${currDate}</h5>
                             <p>${iconURL}</p>
-                            <p>Temp: ${cityInfo.temp} °F</p>
-                            <p>Wind: ${cityInfo.wind} MPH</p>
+                            <p>Temp: ${cityInfo.temp} °C</p>
+                            <p>Wind: ${cityInfo.wind} m/s</p>
                             <p>Humidity: ${cityInfo.humidity}\%</p>
                         </div>
-                    </div>
-                <div>
-            `);
+                    </div>`);
 
             $("#boxes").append(futureCard);
         }
